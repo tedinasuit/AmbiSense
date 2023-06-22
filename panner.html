@@ -1,0 +1,157 @@
+<html><head><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+  <meta charset="utf-8">
+	<title>Panner3D</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="icon" type="image/png" sizes="174x174" href="./favicon.png">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.4.3/webcomponents-bundle.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
+	<style type="text/css" id="operaUserStyle"></style>
+	<link href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=block" rel="stylesheet">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/lightcase/2.5.0/css/lightcase.css'>
+	<script  src="popup.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script src="js/soundscape.js"></script>
+	<script src="js/HueIntegration.js"></script>
+	<script src="js/VolumeControl.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="js/Tone.js"></script>
+	<script src="js/tone-ui.js"></script>
+	<script src="js/components.js"></script>
+</head>
+<body>
+	<section>
+
+	    <!-- sidebar content -->
+			 <div class="rightbar">
+				<h2 class="">Enjoy Your Day</h2>
+				<div class="cmain">
+					<a class="csetting" href="colour-settings.html"> > colour settings</a>
+				<br>
+				<a class="cpage" href="index.html"> > colour page</a>
+				</div>
+				<div class="cal">
+					<div class="cal">
+						<div class="day"></div>
+						<div class="date"></div>
+						<div class="time"></div>
+					</div>
+				</div>
+			</div>
+			<div class="sidebar">
+				<div class="user-background">
+				<li class="user-one"></li>
+				<h2 class="logo">Dashboard Menu</h2>
+			</div>
+				<ul class="nav">
+					<li><a href="active">Profile</a></li>
+					<li class="#"><a href="#">language</a></li>
+					<li><a href="#">Sounds</a></li>
+					<li><a href="#">Presets</a></li>
+				</ul>
+	
+				<ul class="social">
+				</ul>
+
+				<select id="colourchange" onchange="color(this.value)">
+					<option value="auto">Auto</option>
+					<option value="#3944BC">Blue</option>
+					<option value="#378308">Green</option>
+					<option value="#C30010">Red</option>
+				</select>
+	
+			</div>
+			<!-- main content -->
+			<div class="main">
+				<div class="head-section">
+					<div class="col-6">
+						<h2>What do you like to listen today?</h2>
+					</div>
+	
+					<div class="profile-div">
+						<p>test</p>
+					</div>
+	
+					<div class="notification-div">
+						<p>wip</p>
+					</div>
+	
+					<div class="clearfix"></div>
+				</div>
+	
+				<br><br>
+	
+				<div class="content">
+					<p>Prototype</p> <br><br>
+					<table>
+						<thead>
+							<tr class="row1">
+								<th scope="col" width="100%">
+									<p>Soundscape</p> <br><br>
+									<div id="contents">
+										<tone-play-toggle onload="init()"></tone-play-toggle>
+										<tone-slider class="slider" label="x" id="xSlider" min="-2" max="2" value="0"></tone-slider>
+										<tone-slider class="slider" id="zSlider" label="z" min="-2" max="2" value="0"></tone-slider>
+										<tone-slider class="slider" id="rotation" label="rotation" min="0" max="6.28" value="0" units="rad"></tone-slider>
+									</div>
+								</th>
+							
+							</tr>
+							<tr>
+								<th scope="col" width="100%">
+									<div id="contents">
+										<br><br>
+										<div class="centervol">
+										<center><p>Volume Control</p></center> 
+									</div>
+									</div>
+								</th>
+							
+							</tr>
+						</thead>
+	
+						<tbody>
+						  <tr>
+								<td class="elements"> <img src="style/bird.png" alt="Italian Trulli">
+									<audio controls loop id="mediaClip" src="sounds/BirdChirpingSoundEffect.mp3"  style="display:none" allow="autoplay" controls>
+										<p>Your browser does not support the audio element</p>
+									</audio>
+								
+									<input type="range" oninput="setVolume()" id='volume1' min=0 max=1 step=0.01 value='0' onclick="play()">
+									<img src="style/star.png" alt="Italian Trulli">
+									<audio controls loop id="mediaClip1" src="sounds/ChimesFreeSoundEffectsHDwithdownloadlinkYouTube.mp3"  style="display:none" allow="autoplay" controls>
+										<p>Your browser does not support the audio element</p>
+									</audio>
+								
+									<input type="range" oninput="setVolume()" id='volume2' min=0 max=1 step=0.01 value='0' onclick="play()">
+									<img src="style/bell.png" alt="Italian Trulli">
+									<audio controls loop id="mediaClip2" src="sounds/Tibetanbellsoundeveryminutfortenminutes.mp3"  style="display:none" allow="autoplay" controls>
+										<p>Your browser does not support the audio element</p>
+									</audio>
+								
+									<input type="range" oninput="setVolume()" id='volume3' min=0 max=1 step=0.01 value='0' onclick="play()"></td>
+								</td>
+							</tr>
+						</tbody>
+	
+					</table>
+				</div>
+			</div>
+		</section>
+
+		 <script type="text/javascript">
+			    let mode = 'auto';
+				// The IP of the Hue Bridge I want to connect to
+				const hueBridgeIP = '192.168.178.17';
+				// The API token of the Hue Bridge
+				const username = 'aMzAUrHbPTUJJUuaaDsoLXyYrCIVF6yZDGZRTVHb';
+				// The ID of the Hue light I want to control
+				const lightId = '4';
+
+			 $('li').click(function(){
+				$('li').removeClass('active');
+				$(this).addClass('active');
+			 });
+			</script>
+</body></html>

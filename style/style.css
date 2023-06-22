@@ -1,0 +1,25 @@
+body {
+    transition: all 5s ease;
+}
+
+#cs-btn {
+    position: absolute;
+    text-decoration: none;
+    right: 1%;
+    top: 2%;
+    text-align: right;
+    background-color: white;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+#pnr-btn {
+    position: absolute;
+    text-decoration: none;
+    right: 1%;
+    top: 2%;
+    text-align: right;
+    background-color: white;
+    padding: 5px;
+    border-radius: 20px;
+}

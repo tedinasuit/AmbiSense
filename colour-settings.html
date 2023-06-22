@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Color Settings</title>
+    <link rel="stylesheet" href="style/colour-settings.css">
+  </head>
+  <body>
+    <h1>Color Settings</h1>
+    <form id="color-form">
+      <div class="grid-container">
+        <div id="div-l">
+        <label>00:00-01:00</label>
+        <input type="color" id="hour-0" value=""><br/>
+        <label>01:00-02:00</label>
+        <input type="color" id="hour-1" value=""><br/>
+        <label>02:00-03:00</label>
+        <input type="color" id="hour-2" value=""><br/>
+        <label>03:00-04:00</label>
+        <input type="color" id="hour-3" value=""><br/>
+        <label>04:00-05:00</label>
+        <input type="color" id="hour-4" value=""><br/>
+        <label>05:00-06:00</label>
+        <input type="color" id="hour-5" value=""><br/>
+        <label>06:00-07:00</label>
+        <input type="color" id="hour-6" value=""><br/>
+        <label>07:00-08:00</label>
+        <input type="color" id="hour-7" value=""><br/>
+        <label>08:00-09:00</label>
+        <input type="color" id="hour-8" value=""><br/>
+        <label>90:00-10:00</label>
+        <input type="color" id="hour-9" value=""><br/>
+        <label>10:00-11:00</label>
+        <input type="color" id="hour-10" value=""><br/>
+        <label>11:00-12:00</label>
+        <input type="color" id="hour-11" value=""><br/> 
+      </div>
+      <div id="div-r">
+        <label>12:00-13:00</label>
+        <input type="color" id="hour-12" value=""><br/>
+        <label>13:00-14:00</label>
+        <input type="color" id="hour-13" value=""><br/>
+        <label>14:00-15:00</label>
+        <input type="color" id="hour-14" value=""><br/>
+        <label>15:00-16:00</label>
+        <input type="color" id="hour-15" value=""><br/>
+        <label>16:00-17:00</label>
+        <input type="color" id="hour-16" value=""><br/>
+        <label>17:00-18:00</label>
+        <input type="color" id="hour-17" value=""><br/>
+        <label>18:00-19:00</label>
+        <input type="color" id="hour-18" value=""><br/>
+        <label>19:00-20:00</label>
+        <input type="color" id="hour-19" value=""><br/>
+        <label>20:00-21:00</label>
+        <input type="color" id="hour-20" value=""><br/>
+        <label>21:00-22:00</label>
+        <input type="color" id="hour-21" value=""><br/>
+        <label>22:00-23:00</label>
+        <input type="color" id="hour-22" value=""><br/>
+        <label>23:00-00:00</label>
+        <input type="color" id="hour-23" value=""><br/>
+      </div>
+      </div>
+      <button type="submit">Save</button>
+      <a id="main-btn" href="index.html">Back to colour</a><br>
+      <a id="pnr-btn" href="panner.html">Back to panner</a>
+
+    </form>
+    <script>
+      const colorForm = document.getElementById('color-form');
+      colorForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const hourColors = {};
+        for (let i = 0; i < 24; i++) {
+          const hourInput = document.getElementById('hour-' + i);
+          hourColors[i] = hourInput.value;
+        }
+        localStorage.setItem('hourColors', JSON.stringify(hourColors));
+        alert('Colors saved successfully!');
+      });
+
+      function updateBackgroundColor() {
+        const hourColors = JSON.parse(localStorage.getItem('hourColors'));
+        if (!hourColors) {
+          return;
+        }
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentColor = hourColors[currentHour];
+        document.body.style.backgroundColor = currentColor;
+      }
+
+      function saveSettings() {
+        const hourColors = {};
+        for (let i = 0; i < 24; i++) {
+          const input = document.getElementById(`hour-${i}`);
+          hourColors[i] = input.value;
+        }
+        localStorage.setItem('hourColors', JSON.stringify(hourColors));
+      }
+
+      function loadSettings() {
+        const hourColors = JSON.parse(localStorage.getItem('hourColors')) || {};
+
+        for (let i = 0; i < 24; i++) {
+          const input = document.getElementById(`hour-${i}`);
+          const color = hourColors[i] || '#000000';
+          input.value = color;
+          input.style.backgroundColor = color;
+        }   
+      }
+
+      loadSettings();
+    </script>
+  </body>
+</html>
